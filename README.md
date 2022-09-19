@@ -28,3 +28,10 @@
 
 - [x] 1단계 - 서블릿 학습 테스트
 - [x] 2단계 - 필터 학습 테스트
+
+#### reflection
+
+- [x] Junit3TestRunner 클래스의 모든 테스트를 통과시킨다.
+- [x] Junit4TestRunner 클래스의 모든 테스트를 통과시킨다.
+- [x] ReflectionTest 클래스의 모든 테스트를 통과시킨다.
+- [ ] ReflectionsTest 클래스의 모든 테스트를 통과시킨다.
