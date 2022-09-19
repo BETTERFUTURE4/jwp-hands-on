@@ -33,5 +33,5 @@
 
 - [x] Junit3TestRunner 클래스의 모든 테스트를 통과시킨다.
 - [x] Junit4TestRunner 클래스의 모든 테스트를 통과시킨다.
-- [ ] ReflectionTest 클래스의 모든 테스트를 통과시킨다.
+- [x] ReflectionTest 클래스의 모든 테스트를 통과시킨다.
 - [ ] ReflectionsTest 클래스의 모든 테스트를 통과시킨다.
