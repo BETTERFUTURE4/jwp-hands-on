@@ -52,13 +52,11 @@ class Stage1Test {
      */
     @Test
     void testHikariCP() {
-        final JdbcDataSource jdbcDataSource = new JdbcDataSource();
-        jdbcDataSource.setURL(H2_URL);
-        jdbcDataSource.setUser(USER);
-        jdbcDataSource.setPassword(PASSWORD);
-
         final var hikariConfig = new HikariConfig();
-        hikariConfig.setDataSource(jdbcDataSource);
+        hikariConfig.setJdbcUrl(H2_URL);
+        hikariConfig.setUsername(USER);
+        hikariConfig.setPassword(PASSWORD);
+
         hikariConfig.setMaximumPoolSize(5);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
