@@ -40,3 +40,8 @@
 
 - [x] Stage3Test 클래스의 모든 테스트를 통과시킨다.
 - [x] Stage4Test 클래스의 모든 테스트를 통과시킨다.
+
+#### connection pool
+- [x] 0단계 - DataSource 다루기
+- [x] 1단계 - 커넥션 풀링
+- [x] 2단계 - HikariCP 설정하기
