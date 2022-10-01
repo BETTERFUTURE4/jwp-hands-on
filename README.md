@@ -43,5 +43,5 @@
 
 #### connection pool
 - [x] 0단계 - DataSource 다루기
-- [ ] 1단계 - 커넥션 풀링
-- [ ] 2단계 - HikariCP 설정하기
+- [x] 1단계 - 커넥션 풀링
+- [x] 2단계 - HikariCP 설정하기
