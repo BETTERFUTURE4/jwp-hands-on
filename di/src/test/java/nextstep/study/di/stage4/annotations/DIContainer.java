@@ -2,12 +2,10 @@ package nextstep.study.di.stage4.annotations;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import nextstep.study.ConsumerWrapper;
 import nextstep.study.FunctionWrapper;
-import org.reflections.Reflections;
 
 
 class DIContainer {
@@ -28,8 +26,14 @@ class DIContainer {
     }
 
     public static DIContainer createContainerForPackage(final String rootPackageName) {
-        Set<Class<?>> classes = ClassPathScanner.getAllClassesInPackage(rootPackageName);
-        return new DIContainer(classes);
+        Set<Class<?>> allClassesInPackage = ClassPathScanner.getAllClassesInPackage(rootPackageName);
+        System.out.println("allClassesInPackage = " + allClassesInPackage);
+        Set<Class<?>> beanClasses = allClassesInPackage
+                .stream()
+                .filter(aClass -> aClass.isAnnotationPresent(Repository.class) || aClass.isAnnotationPresent(Service.class))
+                .collect(Collectors.toUnmodifiableSet());
+        System.out.println("beanClasses = " + beanClasses);
+        return new DIContainer(beanClasses);
     }
 
     private void setFields(final Object bean) {
