@@ -83,4 +83,70 @@ Phantom reads : 다른 트랜잭션으로 인한, **커밋을 통해 DB에 `dele
 | Repeatable Read  | -           | -                    | +(MySQL은 변경 후) |
 | Serializable     | -           | -                    | -              |
 
-- [ ] 2단계 - Propagation
+- [x] 2단계 - Propagation
+
+### Required
+
+생성된 트랜잭션이 몇 개인가? : 1개
+
+왜 그런 결과가 나왔을까? : Required 는 기존 트랜잭션(부모 트랜잭션)이 있을 시 합류한다.
+
+### Required New
+
+생성된 트랜잭션이 몇 개인가? : 2개
+
+왜 그런 결과가 나왔을까?
+
+- RequiredNew 는 부모 트랜잭션과 관계없는 새 트랜잭션을 생성한다.
+- 두 트랜잭션은 별개로 처리된다.
+
+### REQUIRES_NEW 일 때 예외로 인한 롤백
+
+- 부모 트랜잭션 시작 -> 자식 트랜잭션 세이브 후 커밋 -> 부모 트랜잭션 예외 터짐
+
+RequiredNew 에서 자식(second) 트랜잭션도 롤백되는가?
+
+- 롤백되지 않는다.
+- 별개의 트랜잭션 이므로!
+
+### Supports
+
+주석일때(기존 트랜잭션 없을 때) : 트랜잭션 없이 처리 (saveSecondTransactionWithSupports)
+
+주석 아닐 때(기존 트랜잭션 존재) : 기존 트랜잭션에 합류 (saveFirstTransactionWithSupports)
+
+### Mandatory
+
+주석일때(기존 트랜잭션 없을 때) : 
+- 예외 터짐
+- IllegalTransactionStateException: No existing transaction found for transaction marked with
+propagation 'mandatory'
+
+주석 아닐 때(기존 트랜잭션 존재) : 기존 트랜잭션에 합류 (saveFirstTransactionWithSupports)
+
+### Not Supported
+
+주석일 때(기존 트랜잭션 없을 때) : 트랜잭션 없이 간다. first, second 트랜잭션은 active 되어있지 않다.
+
+주석 아닐 때(기존 트랜잭션 존재) : first 트랜잭션은 존재하되, second는 트랜잭션 없이 간다. 기존 트랜잭션은 second 메소드 실행 전까지 보류된다. second 트랜잭션은 active 되어있지 않다.
+
+### Nested
+
+주석 없을 땐 새 트랜잭션, 없을 땐 중첩 트랜잭션을 예상했다.
+
+- 실제로는 NestedTransactionNotSupportedException 가 뜬다. JPA 에서는 Nested 를 지원하지 않는 듯...
+- DB가 SAVEPOINT 기능을 지원해야 사용이 가능(Oracle)하다.
+
+주석 있을 땐(기존 트랜잭션 없을 때)
+
+- saveSecondTransactionWithNested 만 존재.
+- 즉 새 트랜잭션을 만든다.
+
+### Never
+
+기존 트랜잭션 있을 때 : 
+- 예외 처리. 
+- Existing transaction found for transaction marked with propagation 'never'
+
+새 트랜잭션일 때(주석) : 
+- 트랜잭션 없이 간다. second 트랜잭션은 active 되어있지 않다.
